@@ -1,0 +1,84 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<script>
+//Qlik Sense SaaSのテナント情報
+var server = {
+  host: "tts2.ap.qlikcloud.com", // Qlik Sense SaaS tenant
+  port: 443,                     // Qlik Sense SaaS port
+  prefix: "/",                   // Virtual Proxy prefix
+  isSecure: true,                // true=https, false=http
+  webIntegrationId: 'Jrh8kjVXnikS9GteYCldwL5INe36hcVG' // Web ID
+};
+
+//認証済みかのチェック
+function connect() {
+  var tenant = "https://"+server.host+(server.port ? ":"+server.port : "");
+  //ログイン状態チェック用API: https://[tenant]/api/v1/users/me
+  fetch(tenant + "/api/v1/users/me", {
+    method: "GET",
+    mode: "cors",           // no-cors, cors, same-origin
+    credentials: "include", // include, same-origin, omit
+    headers: {
+      "qlik-web-integration-id": server.webIntegrationId
+    }
+  }).then(response => {
+    //未認証の場合はQlik Sense SaaSのログイン画面にリダイレクト
+    //https://[tenant]/login?returnto=https://xxx&qlik-web-integration-id=xxx
+    if(response.status===401) {
+      var url = tenant + "/login";
+      url = url + '?returnto=' + encodeURIComponent(window.location.href);
+      url = url + '&qlik-web-integration-id=' + server.webIntegrationId;
+      window.location.href = url;
+    }
+    else if(response.status===200) {
+      alert("認証して戻ってきました!!");
+      start();
+    }
+  }).catch(error => {
+    alert(error);
+  });
+}
+connect(); //認証済みかのチェック
+</script>
+
+</head>
+
+<body>
+
+<table border="1" width="100%" height="100%">
+  <tbody>
+    <tr>
+      <td width="30%" height="50%">
+        <iframe id="QV01" src="" style="width:100%;height:100%;"></iframe>
+      </td>
+      <td colspan="2" rowspan="2" width="70%" height="100%">
+        <iframe id="QV03" src="" style="width:100%;height:100%;"></iframe>
+      </td>
+    </tr>
+    <tr>
+      <td width="30%" height="50%">
+        <iframe id="QV02" src="" style="width:100%;height:100%;"></iframe>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+function start() {
+  // Qlik Sense SaaSのHTTPレスポンスヘッダ Content-Security-Policy を設定
+  // iframeでの読み込みを許可する親ページのサーバー名(例:jatok-tts1)を追加
+  // MCの例: content-security-policy: frame-ancestors jatok-tts1
+  var appid = "58966ad8-c483-4fac-9d71-769c75458740";
+  var obj1 = "https://tts2.ap.qlikcloud.com/single/?appid="+appid+"&obj=BDQru&lang=ja-JP&opt=ctxmenu&theme=breeze";
+  document.getElementById("QV01").src = obj1;
+  var obj2 = "https://tts2.ap.qlikcloud.com/single/?appid="+appid+"&obj=CzcvAzC&lang=ja-JP&opt=ctxmenu&theme=breeze";
+  document.getElementById("QV02").src = obj2;
+  var obj3 = "https://tts2.ap.qlikcloud.com/single/?appid="+appid+"&obj=pmGDmg&lang=ja-JP&opt=currsel%2Cctxmenu&theme=breeze";
+  document.getElementById("QV03").src = obj3;
+}
+</script>
+
+</body>
+</html>
