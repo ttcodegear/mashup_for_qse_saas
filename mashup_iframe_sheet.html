@@ -47,6 +47,7 @@ connect(); //認証済みかのチェック
 
 <body>
 
+<input type="button" value="logout" onclick="logout()">
 <iframe id="QV01" src="" style="width:100%;height:100%;"></iframe>
 
 <script>
@@ -56,6 +57,10 @@ function start() {
   // MCの例: content-security-policy: frame-ancestors jatok-tts1
   var sheet = "https://tts2.ap.qlikcloud.com/single/?appid=58966ad8-c483-4fac-9d71-769c75458740&sheet=GjqPnx&lang=ja-JP&opt=currsel%2Cctxmenu&theme=breeze";
   document.getElementById("QV01").src = sheet;
+}
+
+function logout() {
+  window.location.href = "https://tts2.ap.qlikcloud.com/logout";
 }
 </script>
 
