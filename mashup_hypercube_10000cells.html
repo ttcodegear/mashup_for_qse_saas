@@ -131,6 +131,10 @@ require(["js/qlik", "jquery"], function(qlik, $) {
     "qInterColumnSortOrder": [1,0], // ソート順: 1=実績, 0=営業員名
     "qStateName": "$"
   }, TableCallback);
+
+  window.onbeforeunload = function() {
+    app.close();
+  }
 });
 }
 </script>
