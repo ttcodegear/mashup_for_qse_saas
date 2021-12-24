@@ -156,6 +156,10 @@ require(["js/qlik", "jquery"], function(qlik, $) {
       });
     }
   });
+
+  window.onbeforeunload = function() {
+    app.close();
+  }
 });
 }
 </script>
