@@ -59,6 +59,10 @@ require(["js/qlik"], function(qlik) {
   app.getObject('QV02', 'BDQru');             // フィルターパネル
   app.getObject('QV03', 'CzcvAzC');           // フィルターパネル
   app.getObject('QV04', 'pmGDmg');            // 棒チャート
+
+  window.onbeforeunload = function() {
+    app.close();
+  }
 });
 }
 </script>
