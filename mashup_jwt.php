@@ -7,16 +7,18 @@ use Firebase\JWT\Key;
 
 $privateKey = file_get_contents('c:\temp\privatekey.pem');
 
+// kid and iss have to match with the IDP config and the
+// audience has to be qlik.api/login/jwt-session
 $kid = 'my-custom-jwt';
 $iat = time();
-$exp = $iat + 3600;
+$exp = $iat + 3600; //Expires 3600 seconds after the issue date/time.
 $payload = [
-  'jti' => uniqid(),
+  'jti' => uniqid(), // random string
   'iss' => 'https://my-custom-jwt',
   'aud' => 'qlik.api/login/jwt-session',
   'iat' => $iat,
   'exp' => $exp,
-  'nbf' => $iat,
+  'nbf' => $iat, //JWT is valid 0 second after the issue date/time.
   'sub' => '0hEhiPyhMBdtOCv2UZKoLo4G24p-7R6eeGdZUQHF0-c',
   'subType' => 'user',
   'name' => 'Hardcore Harry',
