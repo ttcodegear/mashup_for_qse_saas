@@ -10,7 +10,6 @@ import (
   "github.com/google/uuid" //go get -u github.com/google/uuid
 )
 
-
 // kid and iss have to match with the IDP config and the
 // audience has to be qlik.api/login/jwt-session
 func mashup_jwt(res http.ResponseWriter, req *http.Request) {
