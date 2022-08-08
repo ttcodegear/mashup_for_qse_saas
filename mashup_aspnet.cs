@@ -37,7 +37,7 @@ namespace aspnettest
             {
                 endpoints.MapGet("/", async context =>
                 {
-                   X509Certificate2 cert = new X509Certificate2("C:\\temp\\privatekey.pfx");
+                   X509Certificate2 cert = new X509Certificate2("C:\\temp\\cert.pfx");
                    var rs256 = new RS256Algorithm(cert.GetRSAPublicKey(), cert.GetRSAPrivateKey());
                    var iat = DateTimeOffset.UtcNow;
                    var exp = iat.AddHours(1); //Expires 3600 seconds after the issue date/time.
